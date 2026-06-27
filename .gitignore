@@ -1,0 +1,23 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Secrets and Environment configs
+.env
+.env.*
+app/.env
+
+# Caches and local agent storage
+.pytest_cache/
+.adk/
+.agents/cache.json
+.agents/curriculum_cache.json
+.python-version
+*.log

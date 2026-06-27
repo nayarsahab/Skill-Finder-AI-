@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill Finder AI | Multi-Agent Curriculum Generator</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Style -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="glass-bg-decorations">
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+        <div class="circle circle-3"></div>
+    </div>
+
+    <div class="app-container">
+        <!-- Sidebar: History & Caches -->
+        <aside class="sidebar glass">
+            <div class="sidebar-header">
+                <i class="fa-solid fa-clock-rotate-left logo-accent"></i>
+                <h2>Cache Registry</h2>
+            </div>
+            <div class="sidebar-info">
+                <span class="badge badge-pulse"><i class="fa-solid fa-database"></i> Sync Active</span>
+            </div>
+            <div id="cache-list" class="cache-list">
+                <div class="loading-spinner-small"></div>
+            </div>
+        </aside>
+
+        <!-- Main Content Panel -->
+        <main class="main-content">
+            <!-- Top Navbar -->
+            <header class="app-header glass">
+                <div class="header-logo">
+                    <div class="logo-box">
+                        <i class="fa-solid fa-brain glow-icon"></i>
+                    </div>
+                    <div>
+                        <h1>Skill Finder AI</h1>
+                        <p class="subtitle">Secure Multi-Agent Curriculum Platform</p>
+                    </div>
+                </div>
+                <div class="system-status">
+                    <div class="status-item">
+                        <span class="label">Bouncer Model</span>
+                        <span class="val font-mono">gemini-flash-lite</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="label">Pathfinder</span>
+                        <span class="val font-mono">gemini-flash-lite</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="label">Shield Status</span>
+                        <span class="val text-success"><i class="fa-solid fa-shield-halved"></i> Active</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Search Area -->
+            <section class="search-section glass">
+                <form id="generator-form" class="search-form">
+                    <div class="search-input-wrapper">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" id="skill-query" placeholder="Enter any skill (e.g., cooking, python, hacking, lockpicking)..." autocomplete="off" required>
+                        <button type="submit" id="generate-btn" class="btn btn-primary">
+                            <span>Compile Plan</span>
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        </button>
+                    </div>
+                </form>
+                <div class="suggestions">
+                    <span class="suggestions-label">Try these:</span>
+                    <div class="chips-container">
+                        <button class="chip chip-safe" data-query="Python Programming">Python</button>
+                        <button class="chip chip-safe" data-query="Basic Culinary Arts">Cooking</button>
+                        <button class="chip chip-safe" data-query="Organic Gardening">Gardening</button>
+                        <button class="chip chip-safe" data-query="Journalism">Journalism</button>
+                        <button class="chip chip-danger" data-query="Lockpicking">Lockpicking</button>
+                        <button class="chip chip-danger" data-query="Offensive Cyberattacks">Hacking</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- System Execution Graph Visualizer -->
+            <section id="workflow-visualizer" class="workflow-visualizer glass hidden">
+                <h3><i class="fa-solid fa-diagram-project header-icon"></i> Live Graph Execution</h3>
+                <div class="workflow-graph">
+                    <!-- Node 1 -->
+                    <div class="node" id="node-start">
+                        <div class="node-icon"><i class="fa-solid fa-circle-play"></i></div>
+                        <div class="node-details">
+                            <span class="node-title">START</span>
+                            <span class="node-status">Initiated</span>
+                        </div>
+                    </div>
+                    <div class="connector" id="conn-1"></div>
+                    
+                    <!-- Node 2 -->
+                    <div class="node" id="node-bouncer">
+                        <div class="node-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                        <div class="node-details">
+                            <span class="node-title">Bouncer Agent</span>
+                            <span class="node-status">Waiting</span>
+                        </div>
+                    </div>
+                    <div class="connector-split" id="conn-split">
+                        <svg width="60" height="80" viewBox="0 0 60 80" fill="none">
+                            <path class="branch-path branch-yes" d="M0,40 Q25,40 30,15 T60,15" stroke="#4b5563" stroke-width="2" />
+                            <path class="branch-path branch-no" d="M0,40 Q25,40 30,65 T60,65" stroke="#4b5563" stroke-width="2" />
+                        </svg>
+                        <div class="branch-label label-yes">Safe</div>
+                        <div class="branch-label label-no">Hazard</div>
+                    </div>
+                    
+                    <!-- Right container for parallel states -->
+                    <div class="workflow-branches">
+                        <!-- Upper branch (Success path) -->
+                        <div class="branch-row" id="success-branch-flow">
+                            <div class="node" id="node-search">
+                                <div class="node-icon"><i class="fa-solid fa-globe"></i></div>
+                                <div class="node-details">
+                                    <span class="node-title">Web Search Node</span>
+                                    <span class="node-status">Waiting</span>
+                                </div>
+                            </div>
+                            <div class="connector" id="conn-2"></div>
+                            
+                            <div class="node" id="node-pathfinder">
+                                <div class="node-icon"><i class="fa-solid fa-route"></i></div>
+                                <div class="node-details">
+                                    <span class="node-title">Pathfinder Agent</span>
+                                    <span class="node-status">Waiting</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Lower branch (Remediation path) -->
+                        <div class="branch-row" id="blocked-branch-flow">
+                            <div class="node" id="node-remediation">
+                                <div class="node-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                                <div class="node-details">
+                                    <span class="node-title">Remediation Node</span>
+                                    <span class="node-status">Waiting</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Output Container -->
+            <section id="results-display" class="results-display">
+                <!-- Idle State Screen -->
+                <div class="idle-state glass">
+                    <div class="idle-decor">
+                        <i class="fa-solid fa-user-astronaut astronaut-icon"></i>
+                    </div>
+                    <h2>Generate Your Custom Learning Map</h2>
+                    <p>Enter any skill above to construct a secure, 4-week structured curriculum. Our shift-left security bouncer verifies safety first, followed by dynamic resource crawling and syllabus construction.</p>
+                    <div class="features-grid">
+                        <div class="feat-card">
+                            <i class="fa-solid fa-user-shield text-primary"></i>
+                            <h4>Shift-Left Security</h4>
+                            <p>Immediate detection and prevention of hazardous content or prompts.</p>
+                        </div>
+                        <div class="feat-card">
+                            <i class="fa-solid fa-compass text-accent"></i>
+                            <h4>Pathfinder Agent</h4>
+                            <p>Builds structured weekly exercises, activities, and capstone labs.</p>
+                        </div>
+                        <div class="feat-card">
+                            <i class="fa-solid fa-bolt text-success"></i>
+                            <h4>Instant Safety Caches</h4>
+                            <p>Instantaneous load for repeated queries using local Cache databases.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Loading Screen -->
+                <div class="loading-state glass hidden">
+                    <div class="shield-loader">
+                        <div class="loader-ring"></div>
+                        <i class="fa-solid fa-shield-halved load-shield"></i>
+                    </div>
+                    <h3 id="loader-stage-title">Shift-Left Security Gate active</h3>
+                    <p id="loader-stage-desc">Analyzing prompt inputs for safety classifications...</p>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-fill"></div>
+                    </div>
+                </div>
+
+                <!-- Remediation Blocked Screen -->
+                <div class="blocked-state glass hidden">
+                    <div class="blocked-header">
+                        <div class="warning-badge">
+                            <i class="fa-solid fa-ban"></i> Blocked by Bouncer
+                        </div>
+                        <div class="risk-meter" id="blocked-risk-level">Risk Level: High</div>
+                    </div>
+                    <div class="blocked-body">
+                        <h2>Hazardous Request Intercepted</h2>
+                        <p class="reason-text" id="blocked-reason-text">Our safety guardrails blocked this request. Hacking tools fall under offensive cyberattack policies.</p>
+                        
+                        <div class="alternative-box" id="alternative-card">
+                            <div class="alt-label">Recommended Safe Alternative:</div>
+                            <h3 id="alternative-title">Cybersecurity Fundamentals</h3>
+                            <p>Learn core infrastructure defenses, encryption fundamentals, and defensive configurations safely.</p>
+                            <button id="load-alternative-btn" class="btn btn-accent">
+                                <span>Switch to Alternative</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Success Curriculum Screen -->
+                <div class="success-state hidden">
+                    <!-- Curriculum Overview Card -->
+                    <div class="overview-card glass">
+                        <div class="overview-header">
+                            <div class="title-section">
+                                <span class="badge-success"><i class="fa-solid fa-check-double"></i> Safe & Compiled</span>
+                                <h2 id="curriculum-title">Python Programming Curriculum</h2>
+                            </div>
+                            <div class="actions-section">
+                                <span class="source-label" id="curriculum-source">Source: Live Run</span>
+                                <button id="export-md-btn" class="btn btn-secondary">
+                                    <i class="fa-solid fa-file-arrow-down"></i> Export Markdown
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Safety Checklist -->
+                        <div class="safety-checklist-panel">
+                            <div class="safety-header" id="toggle-safety">
+                                <h4><i class="fa-solid fa-circle-check text-success"></i> Safety Checklist & Prerequisites</h4>
+                                <i class="fa-solid fa-chevron-down toggle-icon"></i>
+                            </div>
+                            <ul class="safety-list" id="safety-checklist-list">
+                                <!-- Dynamic input -->
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Weekly Interactive Tabs -->
+                    <div class="plan-tabs-wrapper">
+                        <div class="tab-buttons glass">
+                            <button class="tab-btn active" data-week="1">
+                                <span class="week-num font-mono">Week 1</span>
+                                <span class="week-title-tab">Foundations</span>
+                            </button>
+                            <button class="tab-btn" data-week="2">
+                                <span class="week-num font-mono">Week 2</span>
+                                <span class="week-title-tab">Guided Practice</span>
+                            </button>
+                            <button class="tab-btn" data-week="3">
+                                <span class="week-num font-mono">Week 3</span>
+                                <span class="week-title-tab">Applied Simulation</span>
+                            </button>
+                            <button class="tab-btn" data-week="4">
+                                <span class="week-num font-mono">Week 4</span>
+                                <span class="week-title-tab">Capstone</span>
+                            </button>
+                        </div>
+
+                        <!-- Tab Content Cards -->
+                        <div id="week-content-card" class="week-content-card glass">
+                            <!-- Dynamic Content Rendered Here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast hidden">
+        <i class="fa-solid fa-circle-check toast-icon"></i>
+        <span id="toast-message">Curriculum successfully exported!</span>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
